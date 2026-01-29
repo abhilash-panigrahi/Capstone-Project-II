@@ -89,7 +89,7 @@ http://localhost:8501
 
 1. **Launch Application**
    ```bash
-   streamlit run quantum_capstone_final.py
+   streamlit run finalCode.py
    ```
 
 2. **Register Account**
