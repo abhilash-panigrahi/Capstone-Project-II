@@ -71,7 +71,7 @@ pip install streamlit pillow numpy qrcode pandas
 ### Step 2: Run the Application
 
 ```bash
-streamlit run quantum_capstone_final.py
+streamlit run FinalCode.py
 ```
 
 ### Step 3: Access the Application
@@ -89,7 +89,7 @@ http://localhost:8501
 
 1. **Launch Application**
    ```bash
-   streamlit run finalCode.py
+   streamlit run FinalCode.py
    ```
 
 2. **Register Account**
@@ -279,7 +279,7 @@ Expected: Full access granted
 
 ```
 project/
-├── quantum_capstone_final.py    # Main application
+├── FinalCode.py    # Main application
 ├── README.md                     # This file
 ├── requirements.txt              # Dependencies
 ├── user_credentials.csv          # Generated: User data
