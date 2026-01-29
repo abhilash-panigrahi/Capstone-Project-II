@@ -274,40 +274,6 @@ Admin Role: Access dashboard
 Expected: Full access granted
 ```
 
----
-
-## 🎓 Educational Value
-
-### Concepts Demonstrated
-
-1. **Quantum Cryptography**
-   - BB84 protocol
-   - Quantum key distribution
-   - Post-quantum security
-
-2. **Artificial Intelligence**
-   - Behavioral analysis
-   - Risk scoring
-   - Anomaly detection
-
-3. **Software Engineering**
-   - Clean architecture
-   - Role-based access control
-   - Session management
-   - Error handling
-
-4. **Security Best Practices**
-   - Password hashing
-   - Audit logging
-   - Secure key exchange
-   - Defense in depth
-
-5. **Performance Optimization**
-   - NumPy vectorization
-   - Efficient data structures
-   - Fast XOR operations
-
----
 
 ## 📁 File Structure
 
