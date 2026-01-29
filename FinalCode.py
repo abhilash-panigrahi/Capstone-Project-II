@@ -380,7 +380,7 @@ def main():
         
         with col1:
             st.image("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80", 
-                    caption="Quantum Security Architecture", use_column_width=True)
+                    caption="Quantum Security Architecture", use_container_width=True)
             
             st.info("""
             ### 🛡️ System Features
@@ -590,7 +590,7 @@ def main():
                     
                     col1, col2 = st.columns(2)
                     with col1:
-                        st.image(image, caption="Original Image", use_column_width=True)
+                        st.image(image, caption="Original Image", use_container_width=True)
                     with col2:
                         st.info(f"""
                         **Image Details:**
@@ -657,7 +657,7 @@ def main():
                                 dec_image = Image.open(io.BytesIO(decrypted_bytes))
                                 
                                 st.success("✅ Image decrypted successfully!")
-                                st.image(dec_image, caption="Decrypted Image", use_column_width=True)
+                                st.image(dec_image, caption="Decrypted Image", use_container_width=True)
                                 
                                 log_activity(st.session_state.username, "IMAGE_DECRYPTED", "SUCCESS", "")
                         except Exception as e:
