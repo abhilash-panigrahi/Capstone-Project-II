@@ -469,98 +469,95 @@ def main():
         # =====================================================
         # HOME PAGE
         # =====================================================
-        # =====================================================
-# HOME PAGE
-# =====================================================
-if nav == "🏠 Home":
-    # Enhanced header with gradient
-    st.markdown("""
-        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                    padding: 2rem; border-radius: 10px; margin-bottom: 2rem;'>
-            <h1 style='color: white; text-align: center; margin: 0;'>
-                🏠 Welcome to Quantum-Safe Access Control
-            </h1>
-            <p style='color: white; text-align: center; font-size: 1.2rem; margin-top: 0.5rem;'>
-                Hello, <strong>{}</strong>!
-            </p>
-        </div>
-    """.format(st.session_state.username), unsafe_allow_html=True)
-    
-    # Enhanced status cards with better styling
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("""
-            <div style='background: linear-gradient(135deg, #00FF41 0%, #00CC33 100%); 
-                        padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
-                <h3 style='color: white; margin-top: 0;'>🔒 Your Security Status</h3>
-                <ul style='color: white; font-size: 1.1rem;'>
-                    <li>Account Status: <strong>Active</strong></li>
-                    <li>AI Risk Level: <strong>{}</strong></li>
-                    <li>Role: <strong>{}</strong></li>
-                    <li>Encryption: <strong>Quantum-Safe</strong></li>
-                </ul>
-            </div>
-        """.format(st.session_state.risk_level, st.session_state.role.upper()), unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-            <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                        padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
-                <h3 style='color: white; margin-top: 0;'>📊 Available Features</h3>
-                <ul style='color: white; font-size: 1.1rem;'>
-                    <li>Quantum-Encrypted Messaging</li>
-                    <li>Secure Image Transfer</li>
-                    <li>QR Code Key Sharing</li>
-                    <li>Activity Monitoring</li>
-                </ul>
-            </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown("<br>", unsafe_allow_html=True)
-    
-    # Enhanced Activity Section
-    st.markdown("""
-        <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
-                    padding: 1rem; border-radius: 10px; margin-bottom: 1rem;'>
-            <h2 style='color: white; text-align: center; margin: 0;'>📈 Your Recent Activity</h2>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    if os.path.exists("audit_log.csv"):
-        audit_df = pd.read_csv("audit_log.csv")
-        user_logs = audit_df[audit_df["username"] == st.session_state.username]
-        
-        if len(user_logs) > 0:
-            col1, col2, col3 = st.columns(3)
+        if nav == "🏠 Home":
+            # Enhanced header with gradient
+            st.markdown("""
+                <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                            padding: 2rem; border-radius: 10px; margin-bottom: 2rem;'>
+                    <h1 style='color: white; text-align: center; margin: 0;'>
+                        🏠 Welcome to Quantum-Safe Access Control
+                    </h1>
+                    <p style='color: white; text-align: center; font-size: 1.2rem; margin-top: 0.5rem;'>
+                        Hello, <strong>{}</strong>!
+                    </p>
+                </div>
+            """.format(st.session_state.username), unsafe_allow_html=True)
+            
+            # Enhanced status cards with better styling
+            col1, col2 = st.columns(2)
+            
             with col1:
                 st.markdown("""
-                    <div style='background: #667eea; padding: 1rem; border-radius: 10px; text-align: center;'>
-                        <h2 style='color: white; margin: 0; font-size: 2.5rem;'>{}</h2>
-                        <p style='color: white; margin: 0;'>Total Activities</p>
+                    <div style='background: linear-gradient(135deg, #00FF41 0%, #00CC33 100%); 
+                                padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+                        <h3 style='color: white; margin-top: 0;'>🔒 Your Security Status</h3>
+                        <ul style='color: white; font-size: 1.1rem;'>
+                            <li>Account Status: <strong>Active</strong></li>
+                            <li>AI Risk Level: <strong>{}</strong></li>
+                            <li>Role: <strong>{}</strong></li>
+                            <li>Encryption: <strong>Quantum-Safe</strong></li>
+                        </ul>
                     </div>
-                """.format(len(user_logs)), unsafe_allow_html=True)
+                """.format(st.session_state.risk_level, st.session_state.role.upper()), unsafe_allow_html=True)
+            
             with col2:
-                success_count = len(user_logs[user_logs["status"] == "SUCCESS"])
                 st.markdown("""
-                    <div style='background: #00CC33; padding: 1rem; border-radius: 10px; text-align: center;'>
-                        <h2 style='color: white; margin: 0; font-size: 2.5rem;'>{}</h2>
-                        <p style='color: white; margin: 0;'>Successful Operations</p>
+                    <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+                        <h3 style='color: white; margin-top: 0;'>📊 Available Features</h3>
+                        <ul style='color: white; font-size: 1.1rem;'>
+                            <li>Quantum-Encrypted Messaging</li>
+                            <li>Secure Image Transfer</li>
+                            <li>QR Code Key Sharing</li>
+                            <li>Activity Monitoring</li>
+                        </ul>
                     </div>
-                """.format(success_count), unsafe_allow_html=True)
-            with col3:
-                last_action = user_logs.iloc[-1]["action"] if len(user_logs) > 0 else "N/A"
-                st.markdown("""
-                    <div style='background: #f5576c; padding: 1rem; border-radius: 10px; text-align: center;'>
-                        <h3 style='color: white; margin: 0; font-size: 1.2rem;'>{}</h3>
-                        <p style='color: white; margin: 0;'>Last Action</p>
-                    </div>
-                """.format(last_action), unsafe_allow_html=True)
+                """, unsafe_allow_html=True)
             
             st.markdown("<br>", unsafe_allow_html=True)
-            st.dataframe(user_logs.tail(5), width='stretch')
-        else:
-            st.info("🎉 No activity recorded yet. Start using the system!")
+            
+            # Enhanced Activity Section
+            st.markdown("""
+                <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+                            padding: 1rem; border-radius: 10px; margin-bottom: 1rem;'>
+                    <h2 style='color: white; text-align: center; margin: 0;'>📈 Your Recent Activity</h2>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            if os.path.exists("audit_log.csv"):
+                audit_df = pd.read_csv("audit_log.csv")
+                user_logs = audit_df[audit_df["username"] == st.session_state.username]
+                
+                if len(user_logs) > 0:
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.markdown("""
+                            <div style='background: #667eea; padding: 1rem; border-radius: 10px; text-align: center;'>
+                                <h2 style='color: white; margin: 0; font-size: 2.5rem;'>{}</h2>
+                                <p style='color: white; margin: 0;'>Total Activities</p>
+                            </div>
+                        """.format(len(user_logs)), unsafe_allow_html=True)
+                    with col2:
+                        success_count = len(user_logs[user_logs["status"] == "SUCCESS"])
+                        st.markdown("""
+                            <div style='background: #00CC33; padding: 1rem; border-radius: 10px; text-align: center;'>
+                                <h2 style='color: white; margin: 0; font-size: 2.5rem;'>{}</h2>
+                                <p style='color: white; margin: 0;'>Successful Operations</p>
+                            </div>
+                        """.format(success_count), unsafe_allow_html=True)
+                    with col3:
+                        last_action = user_logs.iloc[-1]["action"] if len(user_logs) > 0 else "N/A"
+                        st.markdown("""
+                            <div style='background: #f5576c; padding: 1rem; border-radius: 10px; text-align: center;'>
+                                <h3 style='color: white; margin: 0; font-size: 1.2rem;'>{}</h3>
+                                <p style='color: white; margin: 0;'>Last Action</p>
+                            </div>
+                        """.format(last_action), unsafe_allow_html=True)
+                    
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    st.dataframe(user_logs.tail(5), width='stretch')
+                else:
+                    st.info("🎉 No activity recorded yet. Start using the system!")
 
         # =====================================================
         # SECURE CHAT
