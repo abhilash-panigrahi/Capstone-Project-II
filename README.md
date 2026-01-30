@@ -338,11 +338,6 @@ project/
 
 ---
 
-## 📄 License
-
-This project is created for educational purposes as part of a capstone project submission.
-
----
 
 ## 🙏 Acknowledgments
 
@@ -352,5 +347,5 @@ This project is created for educational purposes as part of a capstone project s
 - Performance optimization techniques from NumPy documentation
 
 
-**⚠️ Important Note**: This is a simulation for educational purposes. For production deployment, use established quantum-safe cryptography libraries and consult security professionals.
+**Note**: This is a simulation for educational purposes. For production deployment, use established quantum-safe cryptography libraries and consult security professionals.
 
