@@ -393,7 +393,7 @@ def main():
 """, unsafe_allow_html=True)
         
         st.markdown("<h1 class='main-title'>🔐 Quantum-Safe Intelligent Access Control System</h1>", unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; color: #00FF41; font-size: 1.2rem; margin-top: -1rem;'>Abhilash Panigrahi<br>22BCE0113</p>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; color: #00FF41; font-size: 1.2rem; margin-top: -1rem;'>Abhilash Panigrahi - 22BCE0113</p>", unsafe_allow_html=True)
         
         col1, col2 = st.columns([1, 1])
         
