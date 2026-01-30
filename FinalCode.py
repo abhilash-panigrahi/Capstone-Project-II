@@ -283,7 +283,7 @@ def admin_dashboard():
             if filter_status != "All":
                 filtered_df = filtered_df[filtered_df["status"] == filter_status]
             
-            st.dataframe(filtered_df.tail(20), use_container_width=True)
+            st.dataframe(filtered_df.tail(20), width='stretch')
             
             # Download button
             csv_data = df.to_csv(index=False).encode('utf-8')
@@ -313,7 +313,7 @@ def admin_dashboard():
                 st.metric("Regular Users", user_count)
             
             # User table
-            st.dataframe(df[["username", "role", "created_at", "last_login"]], use_container_width=True)
+            st.dataframe(df[["username", "role", "created_at", "last_login"]], width='stretch')
         else:
             st.info("No users registered yet.")
     
@@ -380,7 +380,7 @@ def main():
         
         with col1:
             st.image("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80", 
-                    caption="Quantum Security Architecture", use_container_width=True)
+                    caption="Quantum Security Architecture", width='stretch')
             
             st.info("""
             ### 🛡️ System Features
@@ -401,7 +401,7 @@ def main():
                 username = st.text_input("Username", key="l_user")
                 password = st.text_input("Password", type="password", key="l_pass")
                 
-                if st.button("🔐 Secure Login", type="primary", use_container_width=True):
+                if st.button("🔐 Secure Login", type="primary", width='stretch'):
                     if username and password:
                         if login_user(username, password):
                             st.rerun()
@@ -415,7 +415,7 @@ def main():
                 confirm_pass = st.text_input("Confirm Password", type="password", key="r_confirm")
                 role = st.selectbox("Account Type", ["user", "admin"])
                 
-                if st.button("Create Account", type="primary", use_container_width=True):
+                if st.button("Create Account", type="primary", width='stretch'):
                     if new_pass != confirm_pass:
                         st.error("Passwords do not match!")
                     elif new_user and new_pass:
@@ -442,7 +442,7 @@ def main():
         
         nav = st.sidebar.radio("Go to:", nav_options)
         
-        if st.sidebar.button("🚪 Logout", type="secondary", use_container_width=True):
+        if st.sidebar.button("🚪 Logout", type="secondary", width='stretch'):
             log_activity(st.session_state.username, "LOGOUT", "SUCCESS", "")
             st.session_state.logged_in = False
             st.rerun()
@@ -493,7 +493,7 @@ def main():
                         last_action = user_logs.iloc[-1]["action"] if len(user_logs) > 0 else "N/A"
                         st.metric("Last Action", last_action)
                     
-                    st.dataframe(user_logs.tail(5), use_container_width=True)
+                    st.dataframe(user_logs.tail(5), width='stretch')
                 else:
                     st.info("No activity recorded yet. Start using the system!")
 
@@ -509,7 +509,7 @@ def main():
                 st.subheader("📤 Send Encrypted Message")
                 msg = st.text_area("Type your message:", height=150, key="msg_input")
                 
-                if st.button("🔐 Encrypt & Send", type="primary", use_container_width=True):
+                if st.button("🔐 Encrypt & Send", type="primary", width='stretch'):
                     if msg:
                         with st.spinner("Generating quantum key..."):
                             # Generate quantum key
@@ -553,7 +553,7 @@ def main():
                 encrypted_input = st.text_area("Paste encrypted message:", height=150, key="dec_input")
                 key_input = st.text_input("Enter quantum key (space-separated numbers):", key="key_input")
                 
-                if st.button("🔓 Decrypt Message", type="primary", use_container_width=True):
+                if st.button("🔓 Decrypt Message", type="primary", width='stretch'):
                     if encrypted_input and key_input:
                         try:
                             # Parse key
@@ -590,7 +590,7 @@ def main():
                     
                     col1, col2 = st.columns(2)
                     with col1:
-                        st.image(image, caption="Original Image", use_container_width=True)
+                        st.image(image, caption="Original Image", width='stretch')
                     with col2:
                         st.info(f"""
                         **Image Details:**
@@ -599,7 +599,7 @@ def main():
                         - Mode: {image.mode}
                         """)
                     
-                    if st.button("🔐 Encrypt Image", type="primary", use_container_width=True):
+                    if st.button("🔐 Encrypt Image", type="primary", width='stretch'):
                         try:
                             with st.spinner("Encrypting image using quantum-safe algorithm..."):
                                 # Convert image to bytes
@@ -644,7 +644,7 @@ def main():
                 if "enc_img_data" in st.session_state:
                     st.info("✅ Encrypted image available in session memory")
                     
-                    if st.button("🔓 Decrypt Image", type="primary", use_container_width=True):
+                    if st.button("🔓 Decrypt Image", type="primary", width='stretch'):
                         try:
                             with st.spinner("Decrypting image..."):
                                 # Fast decryption using NumPy
@@ -657,7 +657,7 @@ def main():
                                 dec_image = Image.open(io.BytesIO(decrypted_bytes))
                                 
                                 st.success("✅ Image decrypted successfully!")
-                                st.image(dec_image, caption="Decrypted Image", use_container_width=True)
+                                st.image(dec_image, caption="Decrypted Image", width='stretch')
                                 
                                 log_activity(st.session_state.username, "IMAGE_DECRYPTED", "SUCCESS", "")
                         except Exception as e:
