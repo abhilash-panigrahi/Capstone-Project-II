@@ -364,17 +364,36 @@ def main():
     if not st.session_state.logged_in:
         # Custom CSS for better styling
         st.markdown("""
-            <style>
-            .main-title {
-                text-align: center;
-                color: #00FF41;
-                font-size: 3rem;
-                margin-bottom: 2rem;
-            }
-            </style>
-        """, unsafe_allow_html=True)
+    <style>
+    .main-title {
+        text-align: center;
+        color: #00FF41;
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+        from { text-shadow: 0 0 5px rgba(0, 255, 65, 0.5); }
+        to { text-shadow: 0 0 20px rgba(0, 255, 65, 0.8); }
+    }
+    
+    .stButton>button {
+        background: linear-gradient(45deg, #00FF41, #00CC33);
+        border: none;
+        transition: all 0.3s ease;
+    }
+    
+    .stButton>button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 255, 65, 0.4);
+    }
+    </style>
+""", unsafe_allow_html=True)
         
         st.markdown("<h1 class='main-title'>🔐 Quantum-Safe Intelligent Access Control System</h1>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; color: #00FF41; font-size: 1.2rem; margin-top: -1rem;'>Abhilash Panigrahi<br>22BCE0113</p>", unsafe_allow_html=True)
         
         col1, col2 = st.columns([1, 1])
         
@@ -450,52 +469,98 @@ def main():
         # =====================================================
         # HOME PAGE
         # =====================================================
-        if nav == "🏠 Home":
-            st.title("🏠 Welcome to Quantum-Safe Access Control")
-            st.markdown(f"### Hello, **{st.session_state.username}**!")
-            
-            col1, col2 = st.columns(2)
-            
+        # =====================================================
+# HOME PAGE
+# =====================================================
+if nav == "🏠 Home":
+    # Enhanced header with gradient
+    st.markdown("""
+        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    padding: 2rem; border-radius: 10px; margin-bottom: 2rem;'>
+            <h1 style='color: white; text-align: center; margin: 0;'>
+                🏠 Welcome to Quantum-Safe Access Control
+            </h1>
+            <p style='color: white; text-align: center; font-size: 1.2rem; margin-top: 0.5rem;'>
+                Hello, <strong>{}</strong>!
+            </p>
+        </div>
+    """.format(st.session_state.username), unsafe_allow_html=True)
+    
+    # Enhanced status cards with better styling
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+            <div style='background: linear-gradient(135deg, #00FF41 0%, #00CC33 100%); 
+                        padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+                <h3 style='color: white; margin-top: 0;'>🔒 Your Security Status</h3>
+                <ul style='color: white; font-size: 1.1rem;'>
+                    <li>Account Status: <strong>Active</strong></li>
+                    <li>AI Risk Level: <strong>{}</strong></li>
+                    <li>Role: <strong>{}</strong></li>
+                    <li>Encryption: <strong>Quantum-Safe</strong></li>
+                </ul>
+            </div>
+        """.format(st.session_state.risk_level, st.session_state.role.upper()), unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+            <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                        padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+                <h3 style='color: white; margin-top: 0;'>📊 Available Features</h3>
+                <ul style='color: white; font-size: 1.1rem;'>
+                    <li>Quantum-Encrypted Messaging</li>
+                    <li>Secure Image Transfer</li>
+                    <li>QR Code Key Sharing</li>
+                    <li>Activity Monitoring</li>
+                </ul>
+            </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # Enhanced Activity Section
+    st.markdown("""
+        <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+                    padding: 1rem; border-radius: 10px; margin-bottom: 1rem;'>
+            <h2 style='color: white; text-align: center; margin: 0;'>📈 Your Recent Activity</h2>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    if os.path.exists("audit_log.csv"):
+        audit_df = pd.read_csv("audit_log.csv")
+        user_logs = audit_df[audit_df["username"] == st.session_state.username]
+        
+        if len(user_logs) > 0:
+            col1, col2, col3 = st.columns(3)
             with col1:
-                st.success("""
-                ### 🔒 Your Security Status
-                - Account Status: **Active**
-                - AI Risk Level: **{risk}**
-                - Role: **{role}**
-                - Encryption: **Quantum-Safe**
-                """.format(risk=st.session_state.risk_level, role=st.session_state.role.upper()))
-            
+                st.markdown("""
+                    <div style='background: #667eea; padding: 1rem; border-radius: 10px; text-align: center;'>
+                        <h2 style='color: white; margin: 0; font-size: 2.5rem;'>{}</h2>
+                        <p style='color: white; margin: 0;'>Total Activities</p>
+                    </div>
+                """.format(len(user_logs)), unsafe_allow_html=True)
             with col2:
-                st.info("""
-                ### 📊 Available Features
-                - Quantum-Encrypted Messaging
-                - Secure Image Transfer
-                - QR Code Key Sharing
-                - Activity Monitoring
-                """)
+                success_count = len(user_logs[user_logs["status"] == "SUCCESS"])
+                st.markdown("""
+                    <div style='background: #00CC33; padding: 1rem; border-radius: 10px; text-align: center;'>
+                        <h2 style='color: white; margin: 0; font-size: 2.5rem;'>{}</h2>
+                        <p style='color: white; margin: 0;'>Successful Operations</p>
+                    </div>
+                """.format(success_count), unsafe_allow_html=True)
+            with col3:
+                last_action = user_logs.iloc[-1]["action"] if len(user_logs) > 0 else "N/A"
+                st.markdown("""
+                    <div style='background: #f5576c; padding: 1rem; border-radius: 10px; text-align: center;'>
+                        <h3 style='color: white; margin: 0; font-size: 1.2rem;'>{}</h3>
+                        <p style='color: white; margin: 0;'>Last Action</p>
+                    </div>
+                """.format(last_action), unsafe_allow_html=True)
             
-            st.markdown("---")
-            
-            # User Activity Summary
-            st.subheader("📈 Your Recent Activity")
-            if os.path.exists("audit_log.csv"):
-                audit_df = pd.read_csv("audit_log.csv")
-                user_logs = audit_df[audit_df["username"] == st.session_state.username]
-                
-                if len(user_logs) > 0:
-                    col1, col2, col3 = st.columns(3)
-                    with col1:
-                        st.metric("Total Activities", len(user_logs))
-                    with col2:
-                        success_count = len(user_logs[user_logs["status"] == "SUCCESS"])
-                        st.metric("Successful Operations", success_count)
-                    with col3:
-                        last_action = user_logs.iloc[-1]["action"] if len(user_logs) > 0 else "N/A"
-                        st.metric("Last Action", last_action)
-                    
-                    st.dataframe(user_logs.tail(5), width='stretch')
-                else:
-                    st.info("No activity recorded yet. Start using the system!")
+            st.markdown("<br>", unsafe_allow_html=True)
+            st.dataframe(user_logs.tail(5), width='stretch')
+        else:
+            st.info("🎉 No activity recorded yet. Start using the system!")
 
         # =====================================================
         # SECURE CHAT
