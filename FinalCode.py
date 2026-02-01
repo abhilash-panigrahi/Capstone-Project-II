@@ -666,39 +666,48 @@ def main():
                     
                     if st.button("🔐 Encrypt Image", type="primary", width='stretch'):
                         try:
-                            with st.spinner("Encrypting image using quantum-safe algorithm..."):
+                            with st.spinner("Encrypting using Quantum-Safe algorithm..."):
                                 # Convert image to bytes
                                 img_bytes = io.BytesIO()
                                 image.save(img_bytes, format=image.format)
                                 byte_data = img_bytes.getvalue()
                                 
-                                # Generate quantum key
+                                # Generate quantum key using BB84 logic
                                 key = generate_quantum_key(len(byte_data))
                                 
-                                # Fast encryption using NumPy
+                                # Fast encryption using NumPy vectorization
                                 encrypted_data = fast_xor_encrypt(byte_data, key)
                                 
-                                # Store in session
+                                # Store in session for immediate testing
                                 st.session_state.enc_img_data = encrypted_data
                                 st.session_state.enc_img_key = key
-                                st.session_state.enc_img_format = image.format
                                 
-                                st.success("✅ Image encrypted instantly using vectorized quantum encryption!")
+                                st.success("✅ Image encrypted successfully!")
                                 
-                                # Download button
-                                st.download_button(
-                                    label="📥 Download Encrypted Image",
-                                    data=encrypted_data,
-                                    file_name=f"encrypted_{uploaded_file.name}.bin",
-                                    mime="application/octet-stream"
-                                )
+                                # --- NEW DOWNLOAD SECTION ---
+                                col_dl1, col_dl2 = st.columns(2)
+                                with col_dl1:
+                                    st.download_button(
+                                        label="📥 Download Encrypted Image (.bin)",
+                                        data=encrypted_data,
+                                        file_name=f"encrypted_{uploaded_file.name}.bin",
+                                        mime="application/octet-stream"
+                                    )
+                                with col_dl2:
+                                    # Convert full key to space-separated string for portability
+                                    full_key_text = ' '.join(map(str, [int(x) for x in key]))
+                                    st.download_button(
+                                        label="🔑 Download Full Quantum Key (.txt)",
+                                        data=full_key_text,
+                                        file_name=f"key_{uploaded_file.name}.txt",
+                                        mime="text/plain"
+                                    )
                                 
-                                # Display key info
+                                # Display sample preview
                                 key_preview = ' '.join(map(str, key[:30])) + "..."
-                                st.text_area("Quantum Key (First 30 digits):", key_preview, height=60)
+                                st.text_area("Quantum Key Preview (First 30 digits):", key_preview, height=60)
                                 
-                                log_activity(st.session_state.username, "IMAGE_ENCRYPTED", "SUCCESS", 
-                                           f"Size: {len(byte_data)} bytes")
+                                log_activity(st.session_state.username, "IMAGE_ENCRYPTED", "SUCCESS", f"Size: {len(byte_data)} bytes")
                         except Exception as e:
                             st.error(f"❌ Encryption failed: {str(e)}")
                             log_activity(st.session_state.username, "IMAGE_ENCRYPTION_FAILED", "FAILED", str(e))
@@ -706,28 +715,38 @@ def main():
             with tab_dec:
                 st.subheader("Decrypt Encrypted Image")
                 
-                if "enc_img_data" in st.session_state:
-                    st.info("✅ Encrypted image available in session memory")
-                    
-                    if st.button("🔓 Decrypt Image", type="primary", width='stretch'):
-                        try:
+                # Manual file upload option (New)
+                uploaded_bin = st.file_uploader("Upload Encrypted (.bin) file", type=["bin"])
+                
+                # Manual Key Input (Works like the Secure Chat)
+                manual_key = st.text_area("Paste the Quantum Key here (all numbers):", height=150, help="Paste the content of your downloaded .txt key file here.")
+                
+                if st.button("🔓 Decrypt Image", type="primary", width='stretch'):
+                    try:
+                        # Prioritize uploaded file, fall back to session memory
+                        data_to_decrypt = uploaded_bin.read() if uploaded_bin else st.session_state.get("enc_img_data")
+                        
+                        if data_to_decrypt and manual_key:
                             with st.spinner("Decrypting image..."):
-                                # Fast decryption using NumPy
-                                decrypted_bytes = fast_xor_encrypt(
-                                    st.session_state.enc_img_data,
-                                    st.session_state.enc_img_key
-                                )
+                                # Parse the manually pasted key
+                                key_list = [int(x) for x in manual_key.split()]
                                 
-                                # Convert back to image
+                                # Fast decryption using NumPy
+                                decrypted_bytes = fast_xor_encrypt(data_to_decrypt, key_list)
+                                
+                                # Convert back to image format
                                 dec_image = Image.open(io.BytesIO(decrypted_bytes))
                                 
                                 st.success("✅ Image decrypted successfully!")
                                 st.image(dec_image, caption="Decrypted Image", width='stretch')
                                 
                                 log_activity(st.session_state.username, "IMAGE_DECRYPTED", "SUCCESS", "")
-                        except Exception as e:
-                            st.error(f"❌ Decryption failed: {str(e)}")
-                            log_activity(st.session_state.username, "IMAGE_DECRYPTION_FAILED", "FAILED", str(e))
+                        else:
+                            st.error("Missing Data: Please upload the .bin file AND paste the quantum key.")
+                            
+                    except Exception as e:
+                        st.error(f"❌ Decryption failed: Ensure the key matches the file length. Error: {str(e)}")
+                        log_activity(st.session_state.username, "IMAGE_DECRYPTION_FAILED", "FAILED", str(e))
                 else:
                     st.info("📝 No encrypted image in session. Please encrypt an image first in the 'Encrypt Image' tab.")
 
