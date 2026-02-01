@@ -600,12 +600,15 @@ def main():
                                height=100, 
                                key="enc_display")
                     
-                    key_string = ''.join(map(str, st.session_state.last_key[:20])) + "..."
+                    # Use spaces so the numbers are distinct and readable
+                    key_string = ' '.join(map(str, [int(x) for x in st.session_state.last_key[:20]])) + "..."
                     st.text_input("Quantum Key (Sample - First 20 digits):", key_string)
                     
                     # QR Code option
                     if st.checkbox("Generate QR Code for Key"):
-                        qr_img = generate_qr_code(str(st.session_state.last_key))
+                        # Convert the NumPy values to standard Python ints and join them with spaces
+                        clean_key_string = ' '.join(map(str, [int(x) for x in st.session_state.last_key]))
+                        qr_img = generate_qr_code(clean_key_string)
                         img_byte_arr = io.BytesIO()
                         qr_img.save(img_byte_arr, format='PNG')
                         st.image(img_byte_arr, caption="QR Code for Quantum Key", width=300)
